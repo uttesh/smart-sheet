@@ -1,39 +1,25 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoard";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { FC, useCallback } from "react";
-import { AppBar } from "./pages/layout/AppBar";
-import { Drawer } from "./pages/layout/Drawer";
+import React from "react";
 import "./App.css";
+import { AppBar } from "./pages/layout/AppBar";
 import { AppRoutes } from "./pages/layout/AppRoutes";
-import { DashboardPage } from "./pages/dashboard/Dashboard";
-import { Link, Link as RouterLink } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router";
+import { DrawerComponent } from "./pages/layout/Drawer";
 
 export const mdTheme = createTheme();
 const App = () => {
   const [open, setOpen] = React.useState(true);
-  const navigate = useNavigate();
+
   const toggleDrawer = () => {
     setOpen(!open);
-  };
-
-  const navigateToRoute = (action: string) => {
-    console.log("navigate :: ", action);
-    navigate(action);
   };
 
   return (
@@ -74,37 +60,10 @@ const App = () => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              px: [1]
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List>
-            <ListItem button onClick={(e) => navigateToRoute("dashboard")}>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button onClick={(e) => navigateToRoute("devices")}>
-              <ListItemIcon>
-                <DeveloperBoardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Devices" />
-            </ListItem>
-          </List>
-
-          <Divider />
-        </Drawer>
+        <DrawerComponent
+          open={open}
+          toggleDrawer={toggleDrawer}
+        ></DrawerComponent>
         <Box
           component="main"
           sx={{
