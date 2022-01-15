@@ -1,3 +1,4 @@
+import { API } from "../common/constants";
 import { Device } from "./device.model";
 export const requestOptions = <T>(request: T) => {
   return {
@@ -7,18 +8,18 @@ export const requestOptions = <T>(request: T) => {
   };
 };
 
-export const addDevice = <Device>(device: Device) => {
-  fetch("https://jsonplaceholder.typicode.com/users", requestOptions(device))
-    .then((res) => res.json())
+export const addDevice = async (device: Device): Promise<Device> => {
+  return await fetch(API.DEVICE.ADD(device.name), requestOptions(device))
+    .then(async (res) => await res.json())
     .then((json) => {
-      console.log("::::::json::::::", json);
+      return json;
     });
 };
 
-export const fetchAllDevices = <Device>(device: Device) => {
-  fetch("https://jsonplaceholder.typicode.com/users", requestOptions(device))
-    .then((res) => res.json())
+export const fetchAllDevices = async (): Promise<Device[]> => {
+  return await fetch(API.DEVICE.ALL)
+    .then(async (res) => await res.json())
     .then((json) => {
-      console.log("::::::json::::::", json);
+      return json;
     });
 };
