@@ -38,8 +38,9 @@ export class DeviceController {
   }
 
   @Get()
-  findAll(@Res() res: Response) {
-    res.status(HttpStatus.OK).json(this.deviceService.findAll());
+  async findAll(@Res() res: Response) {
+    const devices: Device[] = await this.deviceService.findAll();
+    res.status(HttpStatus.OK).json(devices);
   }
 
   @Get(':id')

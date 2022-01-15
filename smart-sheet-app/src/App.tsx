@@ -16,7 +16,7 @@ import { DrawerComponent } from "./pages/layout/Drawer";
 
 export const mdTheme = createTheme();
 const App = () => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -51,7 +51,7 @@ const App = () => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              SmartSheet
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -77,9 +77,11 @@ const App = () => {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <div
+            style={{ width: "100%", paddingLeft: "15px", paddingTop: "15px" }}
+          >
             <AppRoutes></AppRoutes>
-          </Container>
+          </div>
         </Box>
       </Box>
     </ThemeProvider>
