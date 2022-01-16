@@ -9,6 +9,7 @@ import { Device } from "../../services/device.model";
 import { fetchAllDevices } from "../../services/devices.service";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import { useNavigate } from "react-router";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
@@ -38,20 +39,37 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
                   aria-label="add an alarm"
                   onClick={() => navigateToRoute(device._id)}
                 >
-                  <AssessmentOutlinedIcon />
+                  <AssessmentOutlinedIcon style={{ fontSize: "10rem" }} />
                 </IconButton>
               </CardContent>
             </StyledCard>
           </GridItem>
         );
       })}
+      <GridItem key="Add_Device_GridItem">
+        <StyledCard key="Add_Device_card">
+          <StyledHeader title="Add Device" />
+
+          <CardContent>
+            <IconButton
+              color="secondary"
+              aria-label="add device"
+              onClick={() => navigateToRoute("ADD_DEVICE")}
+            >
+              <AddCircleOutlineIcon
+                style={{ fontSize: "10rem", color: "grey" }}
+              ></AddCircleOutlineIcon>
+            </IconButton>
+          </CardContent>
+        </StyledCard>
+      </GridItem>
     </GridContainer>
   );
 };
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   padding: 2px;
   width: 10%;
 `;
