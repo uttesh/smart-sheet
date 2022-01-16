@@ -23,3 +23,11 @@ export const fetchAllDevices = async (): Promise<Device[]> => {
       return json;
     });
 };
+
+export const fetchByDeviceId = async (id: string): Promise<Device> => {
+  return await fetch(API.DEVICE.FIND_BY_ID(id))
+    .then(async (res) => await res.json())
+    .then((json) => {
+      return json;
+    });
+};

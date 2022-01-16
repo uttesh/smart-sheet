@@ -8,11 +8,17 @@ import styled from "styled-components";
 import { Device } from "../../services/device.model";
 import { fetchAllDevices } from "../../services/devices.service";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
+import { useNavigate } from "react-router";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
   const [devices, setDevices] = useState<Device[]>([]);
+  const navigate = useNavigate();
 
+  const navigateToRoute = (deviceId: string) => {
+    console.log("navigateToRoute device details:: deviceId :: ", deviceId);
+    navigate(`/devices/${deviceId}`);
+  };
   useEffect(() => {
     fetchAllDevices().then((data) => {
       setDevices(data);
@@ -22,12 +28,16 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     <GridContainer>
       {devices.map((device, index) => {
         return (
-          <GridItem>
-            <StyledCard key={device.name + "_" + index}>
+          <GridItem key={"GridItem_" + device.name + "_" + index}>
+            <StyledCard key={"StyledCard_" + device.name + "_" + index}>
               <StyledHeader title={device.name} />
 
               <CardContent>
-                <IconButton color="secondary" aria-label="add an alarm">
+                <IconButton
+                  color="secondary"
+                  aria-label="add an alarm"
+                  onClick={() => navigateToRoute(device._id)}
+                >
                   <AssessmentOutlinedIcon />
                 </IconButton>
               </CardContent>

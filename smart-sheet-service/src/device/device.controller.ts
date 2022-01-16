@@ -12,6 +12,7 @@ import {
 import { Response } from 'express';
 import { Device } from './device.model';
 import { DeviceService } from './device.service';
+import { DeviceData } from './devicedata.model';
 
 @Controller('devices')
 export class DeviceController {
@@ -29,12 +30,26 @@ export class DeviceController {
     @Body() data: string,
     @Res() res: Response,
   ) {
-    console.log(`Received ${deviceName}: ${JSON.stringify(data)} :: `);
     const device: Device = await this.deviceService.findByName(deviceName);
-    device.data = JSON.stringify(data);
-    this.deviceService.save(device);
-    console.log('Device Data updated Successfully');
+    const deviceData = {
+      deviceId: device._id,
+      data: JSON.stringify(data),
+    } as DeviceData;
+    this.deviceService.saveDeviceData(deviceData);
     res.status(HttpStatus.CREATED).send();
+  }
+
+  @Get('/:deviceName/data')
+  async findAllDeviceData(
+    @Param('deviceName') deviceName: string,
+    @Res() res: Response,
+  ) {
+    const device: Device = await this.deviceService.findByName(deviceName);
+    console.log('device :: ', device);
+    const deviceData: DeviceData[] =
+      await this.deviceService.findDeviceDataByDeviceId(device._id.toString());
+    console.log('deviceData ::', deviceData);
+    res.status(HttpStatus.OK).json(deviceData);
   }
 
   @Get()
@@ -44,14 +59,22 @@ export class DeviceController {
   }
 
   @Get(':id')
-  findOne(@Param() params): string {
+  async findOne(@Param() params, @Res() res: Response) {
     console.log(params.id);
-    return `This action returns a #${params.id} cat`;
+    const device: Device = await this.deviceService.findById(params.id);
+    res.status(HttpStatus.OK).json(device);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() device: Device) {
-    return `This action updates a #${id} cat`;
+  async update(
+    @Param('id') id: string,
+    @Body() updatedDevice: Device,
+    @Res() res: Response,
+  ) {
+    const device: Device = await this.deviceService.findById(id);
+    updatedDevice.updatedDate = new Date();
+    this.deviceService.save(device);
+    res.status(HttpStatus.CREATED).send();
   }
 
   @Get('/findByName/:name')

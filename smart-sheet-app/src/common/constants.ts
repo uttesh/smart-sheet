@@ -6,6 +6,9 @@ export const API = {
     },
     EDIT: "",
     DELETE: "",
-    ALL: `${BASE_API_URL}/devices/`
+    ALL: `${BASE_API_URL}/devices/`,
+    FIND_BY_ID: (id: string) => {
+      return `${BASE_API_URL}/devices/${id}`;
+    }
   }
 };
