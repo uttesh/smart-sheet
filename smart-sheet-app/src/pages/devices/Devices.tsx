@@ -10,11 +10,20 @@ import { fetchAllDevices } from "../../services/devices.service";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import { useNavigate } from "react-router";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { AddDeviceDialog } from "./add.device";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
   const [devices, setDevices] = useState<Device[]>([]);
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    console.log("handleClickOpen");
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const navigateToRoute = (deviceId: string) => {
     console.log("navigateToRoute device details:: deviceId :: ", deviceId);
@@ -54,7 +63,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
             <IconButton
               color="secondary"
               aria-label="add device"
-              onClick={() => navigateToRoute("ADD_DEVICE")}
+              onClick={handleClickOpen}
             >
               <AddCircleOutlineIcon
                 style={{ fontSize: "10rem", color: "grey" }}
@@ -63,6 +72,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
           </CardContent>
         </StyledCard>
       </GridItem>
+      <AddDeviceDialog handleClose={handleClose} open={open}></AddDeviceDialog>
     </GridContainer>
   );
 };

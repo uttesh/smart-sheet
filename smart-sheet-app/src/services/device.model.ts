@@ -1,5 +1,6 @@
-export interface Device {
-  _id: string;
-  name: string;
-  data: string;
+export class Device {
+  _id: string = "";
+  name: string = "";
+  description?: string = "";
+  params: string = "";
 }
