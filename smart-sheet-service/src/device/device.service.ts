@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Device, DeviceDocument } from './device.model';
 import { DeviceData, DeviceDataDocument } from './devicedata.model';
 
@@ -14,6 +14,9 @@ export class DeviceService {
   private readonly devices: Device[] = [];
 
   async save(device: Device): Promise<Device> {
+    if (!device._id) {
+      device._id = new Types.ObjectId();
+    }
     const createdDevice = new this.deviceModel(device);
     return await createdDevice.save();
   }

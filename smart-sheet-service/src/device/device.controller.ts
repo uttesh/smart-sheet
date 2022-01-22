@@ -21,7 +21,7 @@ export class DeviceController {
   @Post()
   create(@Body() device: Device, @Res() res: Response) {
     this.deviceService.save(device);
-    res.status(HttpStatus.CREATED).send();
+    res.status(HttpStatus.OK).json(device);
   }
 
   @Post('/:deviceName/data')
@@ -31,11 +31,14 @@ export class DeviceController {
     @Res() res: Response,
   ) {
     const device: Device = await this.deviceService.findByName(deviceName);
-    const deviceData = {
-      deviceId: device._id,
-      data: JSON.stringify(data),
-    } as DeviceData;
-    this.deviceService.saveDeviceData(deviceData);
+    console.log('device :: ', device);
+    if (device._id) {
+      const deviceData = {
+        deviceId: device._id,
+        data: JSON.stringify(data),
+      } as DeviceData;
+      this.deviceService.saveDeviceData(deviceData);
+    }
     res.status(HttpStatus.CREATED).send();
   }
 

@@ -9,7 +9,16 @@ export const requestOptions = <T>(request: T) => {
 };
 
 export const addDevice = async (device: Device): Promise<Device> => {
-  return await fetch(API.DEVICE.ADD(device.name), requestOptions(device))
+  console.log("device stringify :: ", JSON.stringify(device));
+  return await fetch(API.DEVICE.ADD, requestOptions(device))
+    .then(async (res) => await res.json())
+    .then((json) => {
+      return json;
+    });
+};
+
+export const addDeviceData = async (device: Device): Promise<Device> => {
+  return await fetch(API.DEVICE.ADD_DATA(device.name), requestOptions(device))
     .then(async (res) => await res.json())
     .then((json) => {
       return json;

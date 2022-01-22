@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import { FC, useLayoutEffect, useState } from "react";
 import { Device } from "../../services/device.model";
+import { addDevice } from "../../services/devices.service";
 
 const BootstrapDialogTitle = (props: DialogTitleProps) => {
   const { children, onClose, ...other } = props;
@@ -63,7 +64,6 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
       params.push(paramName);
       setParams(params);
     }
-
     setParamName("");
   };
   const handleDeleteChip = (chip: string) => {
@@ -76,11 +76,19 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
     }
   };
 
-  const save = () => {
+  const resetForm = () => {
+    setDeviceName("");
+    setParamName("");
+    setDevice(new Device());
+    setParams([]);
+  };
+  const save = async () => {
     handleClose();
     device.name = deviceName;
     device.params = params.join(",");
     setDevice(device);
+    await addDevice(device);
+    resetForm();
   };
   useLayoutEffect(() => {}, [paramName, params]);
 

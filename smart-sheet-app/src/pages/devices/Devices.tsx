@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import { Device } from "../../services/device.model";
 import { fetchAllDevices } from "../../services/devices.service";
@@ -18,18 +18,20 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
-    console.log("handleClickOpen");
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
 
+  const getRandomColor = () => {
+    return Math.floor(Math.random() * 16777215).toString(16);
+  };
+
   const navigateToRoute = (deviceId: string) => {
-    console.log("navigateToRoute device details:: deviceId :: ", deviceId);
     navigate(`/devices/${deviceId}`);
   };
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchAllDevices().then((data) => {
       setDevices(data);
     });
@@ -48,7 +50,9 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
                   aria-label="add an alarm"
                   onClick={() => navigateToRoute(device._id)}
                 >
-                  <AssessmentOutlinedIcon style={{ fontSize: "10rem" }} />
+                  <AssessmentOutlinedIcon
+                    style={{ fontSize: "10rem", color: getRandomColor() }}
+                  />
                 </IconButton>
               </CardContent>
             </StyledCard>
@@ -79,7 +83,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto;
   padding: 2px;
   width: 10%;
 `;
