@@ -1,22 +1,19 @@
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import BlurCircularOutlinedIcon from "@mui/icons-material/BlurCircularOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import { CardActions } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import React, { FC, useEffect, useLayoutEffect, useState } from "react";
+import React, { FC, useLayoutEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { Device } from "../../services/device.model";
 import { fetchAllDevices } from "../../services/devices.service";
-import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
-import { useNavigate } from "react-router";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AddDeviceDialog } from "./add.device";
-import { CardActions } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import BlurCircularOutlinedIcon from "@mui/icons-material/BlurCircularOutlined";
+import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
@@ -56,7 +53,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
                   aria-label="add an alarm"
                   onClick={() => navigateToRoute(device._id)}
                 >
-                  <BlurCircularOutlinedIcon
+                  <MemoryOutlinedIcon
                     style={{ fontSize: "5rem", color: getRandomColor() }}
                   />
                 </IconButton>
