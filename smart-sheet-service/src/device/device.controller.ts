@@ -86,7 +86,8 @@ export class DeviceController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return `This action removes a #${id} cat`;
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    await this.deviceService.deleteById(id);
+    res.status(HttpStatus.OK).json({ status: 'Deleted Successfully' });
   }
 }

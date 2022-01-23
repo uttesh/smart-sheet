@@ -41,4 +41,8 @@ export class DeviceService {
   async findById(deviceId: string): Promise<Device> {
     return await this.deviceModel.findOne({ _id: deviceId }).exec();
   }
+
+  async deleteById(deviceId: string) {
+    await this.deviceModel.deleteOne({ _id: deviceId }).exec();
+  }
 }

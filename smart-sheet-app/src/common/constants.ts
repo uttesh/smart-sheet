@@ -6,10 +6,17 @@ export const API = {
       return `${BASE_API_URL}/devices/${name}/data`;
     },
     EDIT: "",
-    DELETE: "",
+    DELETE: (id: string) => {
+      return `${BASE_API_URL}/devices/${id}`;
+    },
     ALL: `${BASE_API_URL}/devices/`,
     FIND_BY_ID: (id: string) => {
       return `${BASE_API_URL}/devices/${id}`;
     }
   }
+};
+
+export const MESSAGES = {
+  DELETE_DEVICE_CONFIRMATION:
+    "Please confirm to delete device and its related data?"
 };

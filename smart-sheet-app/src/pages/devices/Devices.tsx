@@ -1,6 +1,6 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import BlurCircularOutlinedIcon from "@mui/icons-material/BlurCircularOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { CardActions } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -11,13 +11,16 @@ import React, { FC, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { Device } from "../../services/device.model";
-import { fetchAllDevices } from "../../services/devices.service";
+import { fetchAllDevices, removeDevice } from "../../services/devices.service";
 import { AddDeviceDialog } from "./add.device";
-import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
+import { ConfirmDialog } from "../../components/confirm.dialog";
+import { MESSAGES } from "../../common/constants";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
   const [devices, setDevices] = useState<Device[]>([]);
+  const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+  const [selectedDevice, setSelectedDevice] = useState<string>();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -31,13 +34,39 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     return Math.floor(Math.random() * 16777215).toString(16);
   };
 
+  const deleteDeviceConfirmed = async () => {
+    console.log("deleteDevice confirmed::", selectedDevice);
+    setShowConfirmation(false);
+    if (selectedDevice) {
+      await removeDevice(selectedDevice).then((data) => {
+        console.log("deleted :: ", data);
+        getAllDevices();
+      });
+    }
+  };
+
   const navigateToRoute = (deviceId: string) => {
     navigate(`/devices/${deviceId}`);
   };
-  useLayoutEffect(() => {
+
+  const deleteDevice = (id: string) => {
+    console.log("deleteDevice ::", deleteDevice);
+    setSelectedDevice(id);
+    setShowConfirmation(true);
+  };
+
+  const dismissConfirmation = () => {
+    setShowConfirmation(false);
+  };
+
+  const getAllDevices = () => {
     fetchAllDevices().then((data) => {
       setDevices(data);
     });
+  };
+
+  useLayoutEffect(() => {
+    getAllDevices();
   }, []);
   return (
     <GridContainer>
@@ -62,7 +91,10 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
                 <IconButton aria-label="add to favorites">
                   <ModeEditOutlineOutlinedIcon style={{ color: "green" }} />
                 </IconButton>
-                <IconButton aria-label="share">
+                <IconButton
+                  aria-label="share"
+                  onClick={() => deleteDevice(device._id)}
+                >
                   <DeleteOutlinedIcon style={{ color: "#ce2525" }} />
                 </IconButton>
               </StyledCardActions>
@@ -88,6 +120,12 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
         </StyledCard>
       </GridItem>
       <AddDeviceDialog handleClose={handleClose} open={open}></AddDeviceDialog>
+      <ConfirmDialog
+        show={showConfirmation}
+        message={MESSAGES.DELETE_DEVICE_CONFIRMATION}
+        dismiss={dismissConfirmation}
+        yes={deleteDeviceConfirmed}
+      ></ConfirmDialog>
     </GridContainer>
   );
 };
