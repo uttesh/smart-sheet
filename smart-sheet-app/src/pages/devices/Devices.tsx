@@ -11,6 +11,12 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import { useNavigate } from "react-router";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AddDeviceDialog } from "./add.device";
+import { CardActions } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import BlurCircularOutlinedIcon from "@mui/icons-material/BlurCircularOutlined";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
@@ -44,17 +50,25 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
             <StyledCard key={"StyledCard_" + device.name + "_" + index}>
               <StyledHeader title={device.name} />
 
-              <CardContent>
+              <StyledContent>
                 <IconButton
                   color="secondary"
                   aria-label="add an alarm"
                   onClick={() => navigateToRoute(device._id)}
                 >
-                  <AssessmentOutlinedIcon
-                    style={{ fontSize: "10rem", color: getRandomColor() }}
+                  <BlurCircularOutlinedIcon
+                    style={{ fontSize: "5rem", color: getRandomColor() }}
                   />
                 </IconButton>
-              </CardContent>
+              </StyledContent>
+              <StyledCardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <ModeEditOutlineOutlinedIcon style={{ color: "green" }} />
+                </IconButton>
+                <IconButton aria-label="share">
+                  <DeleteOutlinedIcon style={{ color: "#ce2525" }} />
+                </IconButton>
+              </StyledCardActions>
             </StyledCard>
           </GridItem>
         );
@@ -63,17 +77,17 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
         <StyledCard key="Add_Device_card">
           <StyledHeader title="Add Device" />
 
-          <CardContent>
+          <StyledContent>
             <IconButton
               color="secondary"
               aria-label="add device"
               onClick={handleClickOpen}
             >
               <AddCircleOutlineIcon
-                style={{ fontSize: "10rem", color: "grey" }}
+                style={{ fontSize: "5rem", color: "grey" }}
               ></AddCircleOutlineIcon>
             </IconButton>
-          </CardContent>
+          </StyledContent>
         </StyledCard>
       </GridItem>
       <AddDeviceDialog handleClose={handleClose} open={open}></AddDeviceDialog>
@@ -83,9 +97,13 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   padding: 2px;
   width: 10%;
+`;
+
+const StyledCardActions = styled(CardActions)`
+  padding-left: 44%;
 `;
 
 const StyledHeader = styled(CardHeader)`
@@ -97,13 +115,14 @@ const StyledHeader = styled(CardHeader)`
 
 const GridItem = styled.div`
   padding: 5px;
-  font-size: 30px;
+  font-size: 10px;
   text-align: center;
+  width: 200px;
 `;
 
 const StyledIcon = styled(IconButton)`
   .MuiSvgIcon-root {
-    height: 80px;
+    height: 40px;
   }
 `;
 
@@ -113,9 +132,8 @@ const StyledCard = styled(Card)`
   }
 `;
 const StyledContent = styled(CardContent)`
-  .MuiCardContent-root {
-    padding: 0;
-  }
+  padding: 0;
+
   .MuiIconButton-root {
     height: 100px;
   }
