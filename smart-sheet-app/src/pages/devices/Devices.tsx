@@ -14,13 +14,15 @@ import { Device } from "../../services/device.model";
 import { fetchAllDevices, removeDevice } from "../../services/devices.service";
 import { AddDeviceDialog } from "./add.device";
 import { ConfirmDialog } from "../../components/confirm.dialog";
-import { MESSAGES } from "../../common/constants";
+import { ACTION, MESSAGES } from "../../common/constants";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
   const [devices, setDevices] = useState<Device[]>([]);
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [selectedDevice, setSelectedDevice] = useState<string>();
+  const [deviceAction, setDeviceAction] = useState<string>(ACTION.ADD);
+  const [editDeviceObj, setEditDeviceObj] = useState<Device>(new Device());
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -53,6 +55,13 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     console.log("deleteDevice ::", deleteDevice);
     setSelectedDevice(id);
     setShowConfirmation(true);
+  };
+
+  const updateDevice = (selectedDevice: Device) => {
+    console.log("selectedDevice :: ", selectedDevice);
+    setDeviceAction(ACTION.EDIT);
+    setEditDeviceObj(selectedDevice);
+    setOpen(true);
   };
 
   const dismissConfirmation = () => {
@@ -88,7 +97,10 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
                 </IconButton>
               </StyledContent>
               <StyledCardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={() => updateDevice(device)}
+                >
                   <ModeEditOutlineOutlinedIcon style={{ color: "green" }} />
                 </IconButton>
                 <IconButton
@@ -119,7 +131,12 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
           </StyledContent>
         </StyledCard>
       </GridItem>
-      <AddDeviceDialog handleClose={handleClose} open={open}></AddDeviceDialog>
+      <AddDeviceDialog
+        mode={deviceAction}
+        editDevice={editDeviceObj}
+        handleClose={handleClose}
+        open={open}
+      ></AddDeviceDialog>
       <ConfirmDialog
         show={showConfirmation}
         message={MESSAGES.DELETE_DEVICE_CONFIRMATION}
@@ -138,7 +155,7 @@ const GridContainer = styled.div`
 `;
 
 const StyledCardActions = styled(CardActions)`
-  padding-left: 44%;
+  padding-left: 50%;
 `;
 
 const StyledHeader = styled(CardHeader)`

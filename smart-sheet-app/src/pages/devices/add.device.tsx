@@ -7,7 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
-import { FC, useLayoutEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { ACTION } from "../../common/constants";
 import { Device } from "../../services/device.model";
 import { addDevice } from "../../services/devices.service";
 
@@ -44,11 +45,15 @@ export interface DialogTitleProps {
 export interface AddDeviceDialogProps {
   open: boolean;
   handleClose: () => void;
+  mode: string;
+  editDevice?: Device;
 }
 
 export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
   open,
-  handleClose
+  handleClose,
+  mode,
+  editDevice
 }) => {
   const [params, setParams] = useState<string[]>([]);
   const [paramName, setParamName] = useState<string>("");
@@ -90,7 +95,14 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
     await addDevice(device);
     resetForm();
   };
-  useLayoutEffect(() => {}, [paramName, params]);
+  useEffect(() => {
+    console.log("mode ::", mode);
+    console.log("editDevice ::", editDevice);
+    if (mode === ACTION.EDIT && editDevice) {
+      setDevice(editDevice);
+      setParams(editDevice.params.split(","));
+    }
+  }, []);
 
   return (
     <>

@@ -20,3 +20,8 @@ export const MESSAGES = {
   DELETE_DEVICE_CONFIRMATION:
     "Please confirm to delete device and its related data?"
 };
+
+export const ACTION = {
+  EDIT: "edit",
+  ADD: "add"
+};
