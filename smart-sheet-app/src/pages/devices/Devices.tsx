@@ -14,18 +14,19 @@ import { Device } from "../../services/device.model";
 import { fetchAllDevices, removeDevice } from "../../services/devices.service";
 import { AddDeviceDialog } from "./add.device";
 import { ConfirmDialog } from "../../components/confirm.dialog";
-import { ACTION, MESSAGES } from "../../common/constants";
+import { MESSAGES } from "../../common/constants";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
   const [devices, setDevices] = useState<Device[]>([]);
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [selectedDevice, setSelectedDevice] = useState<string>();
-  const [deviceAction, setDeviceAction] = useState<string>(ACTION.ADD);
   const [editDeviceObj, setEditDeviceObj] = useState<Device>(new Device());
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
+
+  const openDeviceDialog = (selectedDevice: Device) => {
+    setEditDeviceObj(selectedDevice);
     setOpen(true);
   };
   const handleClose = () => {
@@ -37,11 +38,9 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
   };
 
   const deleteDeviceConfirmed = async () => {
-    console.log("deleteDevice confirmed::", selectedDevice);
     setShowConfirmation(false);
     if (selectedDevice) {
       await removeDevice(selectedDevice).then((data) => {
-        console.log("deleted :: ", data);
         getAllDevices();
       });
     }
@@ -52,16 +51,8 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
   };
 
   const deleteDevice = (id: string) => {
-    console.log("deleteDevice ::", deleteDevice);
     setSelectedDevice(id);
     setShowConfirmation(true);
-  };
-
-  const updateDevice = (selectedDevice: Device) => {
-    console.log("selectedDevice :: ", selectedDevice);
-    setDeviceAction(ACTION.EDIT);
-    setEditDeviceObj(selectedDevice);
-    setOpen(true);
   };
 
   const dismissConfirmation = () => {
@@ -99,7 +90,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
               <StyledCardActions disableSpacing>
                 <IconButton
                   aria-label="add to favorites"
-                  onClick={() => updateDevice(device)}
+                  onClick={() => openDeviceDialog(device)}
                 >
                   <ModeEditOutlineOutlinedIcon style={{ color: "green" }} />
                 </IconButton>
@@ -122,7 +113,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
             <IconButton
               color="secondary"
               aria-label="add device"
-              onClick={handleClickOpen}
+              onClick={() => openDeviceDialog(new Device())}
             >
               <AddCircleOutlineIcon
                 style={{ fontSize: "5rem", color: "grey" }}
@@ -131,12 +122,14 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
           </StyledContent>
         </StyledCard>
       </GridItem>
-      <AddDeviceDialog
-        mode={deviceAction}
-        editDevice={editDeviceObj}
-        handleClose={handleClose}
-        open={open}
-      ></AddDeviceDialog>
+      {open && (
+        <AddDeviceDialog
+          editDevice={editDeviceObj}
+          handleClose={handleClose}
+          open={open}
+        ></AddDeviceDialog>
+      )}
+
       <ConfirmDialog
         show={showConfirmation}
         message={MESSAGES.DELETE_DEVICE_CONFIRMATION}

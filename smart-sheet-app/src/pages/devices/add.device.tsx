@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, Chip, Paper, TextField } from "@mui/material";
+import { Box, Chip, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,7 +8,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import { FC, useEffect, useState } from "react";
-import { ACTION } from "../../common/constants";
 import { Device } from "../../services/device.model";
 import { addDevice } from "../../services/devices.service";
 
@@ -45,20 +44,18 @@ export interface DialogTitleProps {
 export interface AddDeviceDialogProps {
   open: boolean;
   handleClose: () => void;
-  mode: string;
-  editDevice?: Device;
+  editDevice: Device;
 }
 
 export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
   open,
   handleClose,
-  mode,
   editDevice
 }) => {
   const [params, setParams] = useState<string[]>([]);
   const [paramName, setParamName] = useState<string>("");
   const [deviceName, setDeviceName] = useState<string>("");
-  const [device, setDevice] = useState<Device>(new Device());
+  const [device, setDevice] = useState<Device>(editDevice);
 
   const onTextChange = (e: any) => setParamName(e.target.value);
   const onDeviceChange = (e: any) => setDeviceName(e.target.value);
@@ -81,25 +78,15 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
     }
   };
 
-  const resetForm = () => {
-    setDeviceName("");
-    setParamName("");
-    setDevice(new Device());
-    setParams([]);
-  };
   const save = async () => {
     handleClose();
     device.name = deviceName;
     device.params = params.join(",");
     setDevice(device);
     await addDevice(device);
-    resetForm();
   };
   useEffect(() => {
-    console.log("mode ::", mode);
-    console.log("editDevice ::", editDevice);
-    if (mode === ACTION.EDIT && editDevice) {
-      setDevice(editDevice);
+    if (editDevice && editDevice._id) {
       setParams(editDevice.params.split(","));
     }
   }, []);

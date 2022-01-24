@@ -16,9 +16,11 @@ export class DeviceService {
   async save(device: Device): Promise<Device> {
     if (!device._id) {
       device._id = new Types.ObjectId();
+      const createdDevice = new this.deviceModel(device);
+      return createdDevice.save();
+    } else {
+      return await this.deviceModel.findByIdAndUpdate(device._id, device);
     }
-    const createdDevice = new this.deviceModel(device);
-    return await createdDevice.save();
   }
 
   async saveDeviceData(deviceData: DeviceData): Promise<DeviceData> {
