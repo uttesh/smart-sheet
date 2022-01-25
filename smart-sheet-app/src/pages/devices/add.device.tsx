@@ -80,7 +80,7 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
 
   const save = async () => {
     handleClose();
-    device.name = deviceName;
+    if (deviceName) device.name = deviceName;
     device.params = params.join(",");
     setDevice(device);
     await addDevice(device);

@@ -83,7 +83,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
                   onClick={() => navigateToRoute(device._id)}
                 >
                   <MemoryOutlinedIcon
-                    style={{ fontSize: "5rem", color: getRandomColor() }}
+                    style={{ fontSize: "5rem", color: "#97c6d9" }}
                   />
                 </IconButton>
               </StyledContent>
