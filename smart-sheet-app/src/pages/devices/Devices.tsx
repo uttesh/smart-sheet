@@ -21,7 +21,7 @@ interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
   useDeviceList();
-  const { state } = useSmartSheetContext();
+  const { state, dispatch } = useSmartSheetContext();
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [selectedDevice, setSelectedDevice] = useState<string>();
   const [editDeviceObj, setEditDeviceObj] = useState<Device>(new Device());
@@ -44,7 +44,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     setShowConfirmation(false);
     if (selectedDevice) {
       await removeDevice(selectedDevice).then((data) => {
-        // getAllDevices();
+        updateDevices();
       });
     }
   };
@@ -62,15 +62,15 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     setShowConfirmation(false);
   };
 
-  // const getAllDevices = () => {
-  //   fetchAllDevices().then((data) => {
-  //     setDevices(data);
-  //   });
-  // };
+  const updateDevices = () => {
+    fetchAllDevices().then((devices) => {
+      dispatch({
+        _type: "SetDeviceList",
+        data: devices
+      });
+    });
+  };
 
-  useLayoutEffect(() => {
-    // getAllDevices();
-  }, []);
   return (
     <GridContainer>
       {state.devices.map((device, index) => {
