@@ -29,7 +29,10 @@ export class DeviceService {
   }
 
   async findDeviceDataByDeviceId(deviceId: string): Promise<DeviceData[]> {
-    return await this.deviceDataModel.find({ deviceId: deviceId }).exec();
+    return await this.deviceDataModel
+      .find({ deviceId: deviceId })
+      .sort({ createdDate: -1 })
+      .exec();
   }
 
   async findAll(): Promise<Device[]> {
