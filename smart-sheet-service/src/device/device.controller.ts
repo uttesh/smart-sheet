@@ -36,6 +36,8 @@ export class DeviceController {
       const deviceData = {
         deviceId: device._id,
         data: JSON.stringify(data),
+        createdDate: new Date(),
+        updatedDate: new Date(),
       } as DeviceData;
       this.deviceService.saveDeviceData(deviceData);
     }
@@ -51,6 +53,17 @@ export class DeviceController {
     console.log('device :: ', device);
     const deviceData: DeviceData[] =
       await this.deviceService.findDeviceDataByDeviceId(device._id.toString());
+    console.log('deviceData ::', deviceData);
+    res.status(HttpStatus.OK).json(deviceData);
+  }
+
+  @Get('/data/:deviceId')
+  async findDeviceData(
+    @Param('deviceId') deviceId: string,
+    @Res() res: Response,
+  ) {
+    const deviceData: DeviceData[] =
+      await this.deviceService.findDeviceDataByDeviceId(deviceId);
     console.log('deviceData ::', deviceData);
     res.status(HttpStatus.OK).json(deviceData);
   }

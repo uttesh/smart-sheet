@@ -12,6 +12,9 @@ export const API = {
     ALL: `${BASE_API_URL}/devices/`,
     FIND_BY_ID: (id: string) => {
       return `${BASE_API_URL}/devices/${id}`;
+    },
+    FETCH_DEVICE_DATA_BY_ID: (id: string) => {
+      return `${BASE_API_URL}/devices/data/${id}`;
     }
   }
 };

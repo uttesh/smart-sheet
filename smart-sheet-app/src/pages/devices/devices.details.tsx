@@ -1,6 +1,9 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router";
-import { fetchByDeviceId } from "../../services/devices.service";
+import {
+  fetchByDeviceId,
+  fetchDeviceDataById
+} from "../../services/devices.service";
 export interface DeviceDetailProps {}
 
 export const DeviceDetail: FC<DeviceDetailProps> = () => {
@@ -8,8 +11,8 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
   useEffect(() => {
     console.log("deviceId :: ", deviceId);
     if (deviceId)
-      fetchByDeviceId(deviceId).then((data) => {
-        console.log("device details: ", data);
+      fetchDeviceDataById(deviceId).then((data) => {
+        console.table(data);
       });
   }, []);
   return <></>;

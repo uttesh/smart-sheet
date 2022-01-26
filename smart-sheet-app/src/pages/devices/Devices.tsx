@@ -15,10 +15,13 @@ import { fetchAllDevices, removeDevice } from "../../services/devices.service";
 import { AddDeviceDialog } from "./add.device";
 import { ConfirmDialog } from "../../components/confirm.dialog";
 import { MESSAGES } from "../../common/constants";
+import { useDeviceList } from "../../hooks/useDeviceList";
+import { useSmartSheetContext } from "../../context/Context";
 interface DevicesPageProp {}
 
 export const DevicesPage: FC<DevicesPageProp> = () => {
-  const [devices, setDevices] = useState<Device[]>([]);
+  useDeviceList();
+  const { state } = useSmartSheetContext();
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [selectedDevice, setSelectedDevice] = useState<string>();
   const [editDeviceObj, setEditDeviceObj] = useState<Device>(new Device());
@@ -41,7 +44,7 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     setShowConfirmation(false);
     if (selectedDevice) {
       await removeDevice(selectedDevice).then((data) => {
-        getAllDevices();
+        // getAllDevices();
       });
     }
   };
@@ -59,18 +62,18 @@ export const DevicesPage: FC<DevicesPageProp> = () => {
     setShowConfirmation(false);
   };
 
-  const getAllDevices = () => {
-    fetchAllDevices().then((data) => {
-      setDevices(data);
-    });
-  };
+  // const getAllDevices = () => {
+  //   fetchAllDevices().then((data) => {
+  //     setDevices(data);
+  //   });
+  // };
 
   useLayoutEffect(() => {
-    getAllDevices();
+    // getAllDevices();
   }, []);
   return (
     <GridContainer>
-      {devices.map((device, index) => {
+      {state.devices.map((device, index) => {
         return (
           <GridItem key={"GridItem_" + device.name + "_" + index}>
             <StyledCard key={"StyledCard_" + device.name + "_" + index}>

@@ -8,8 +8,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import { FC, useEffect, useState } from "react";
+import { useSmartSheetContext } from "../../context/Context";
 import { Device } from "../../services/device.model";
-import { addDevice } from "../../services/devices.service";
+import { addDevice, fetchAllDevices } from "../../services/devices.service";
 
 const BootstrapDialogTitle = (props: DialogTitleProps) => {
   const { children, onClose, ...other } = props;
@@ -52,6 +53,7 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
   handleClose,
   editDevice
 }) => {
+  const { dispatch } = useSmartSheetContext();
   const [params, setParams] = useState<string[]>([]);
   const [paramName, setParamName] = useState<string>("");
   const [deviceName, setDeviceName] = useState<string>("");
@@ -84,6 +86,12 @@ export const AddDeviceDialog: FC<AddDeviceDialogProps> = ({
     device.params = params.join(",");
     setDevice(device);
     await addDevice(device);
+    fetchAllDevices().then((devices) => {
+      dispatch({
+        _type: "SetDeviceList",
+        data: devices
+      });
+    });
   };
   useEffect(() => {
     if (editDevice && editDevice._id) {

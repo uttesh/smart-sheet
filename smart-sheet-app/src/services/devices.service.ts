@@ -1,5 +1,6 @@
 import { API } from "../common/constants";
 import { Device } from "./device.model";
+import { DeviceData } from "./devicedata.model";
 export const requestOptions = <T>(request: T, method: string = "POST") => {
   return {
     method: method,
@@ -35,6 +36,16 @@ export const addDeviceData = async (device: Device): Promise<Device> => {
 
 export const fetchAllDevices = async (): Promise<Device[]> => {
   return await fetch(API.DEVICE.ALL)
+    .then(async (res) => await res.json())
+    .then((json) => {
+      return json;
+    });
+};
+
+export const fetchDeviceDataById = async (
+  deviceId: string
+): Promise<DeviceData[]> => {
+  return await fetch(API.DEVICE.FETCH_DEVICE_DATA_BY_ID(deviceId))
     .then(async (res) => await res.json())
     .then((json) => {
       return json;
