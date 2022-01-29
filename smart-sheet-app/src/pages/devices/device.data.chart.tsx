@@ -18,12 +18,11 @@ export const DataChart: FC<DataChartProps> = ({ title, data, device }) => {
   useEffect(() => {
     let _data = processChartDataByParam(data, device);
     setChartData(_data);
-  }, [chartData]);
+  }, [data]);
 
   const options = {
     chart: {
-      zoomType: "x",
-      type: "spline"
+      zoomType: "x"
     },
     title: {
       text: title
