@@ -14,12 +14,13 @@ import { DateTime } from "luxon";
 import {
   getDateTimeStr,
   getFormattedData,
+  getTitle,
   processData
 } from "../../common/utility";
 import { Device } from "../../services/device.model";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import { DataChart } from "./device.data.chart";
 
 export interface DeviceDetailProps {}
 
@@ -48,7 +49,7 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
     device.params.split(",").forEach((param) => {
       columns.push({
         field: param,
-        headerName: param,
+        headerName: getTitle(param),
         width: 250
       });
     });
@@ -75,26 +76,32 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
           display: "flex",
           flexWrap: "wrap",
           "& > :not(style)": {
-            width: "98%",
-            height: 550
+            width: "98%"
           }
         }}
       >
         {processedDeviceData && processedDeviceData.length > 0 && (
-          <Card>
-            <CardHeader title={device.name} subheader={device.params} />
-            <CardContent>
-              <div style={{ height: 400, width: "100%" }}>
-                <DataGrid
-                  getRowId={handleRowId}
-                  rows={processedDeviceData}
-                  columns={getColumns()}
-                  pageSize={10}
-                  rowsPerPageOptions={[5]}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <>
+            <Card>
+              <CardHeader title={device.name} subheader={device.params} />
+              <CardContent>
+                <DataChart
+                  title={device.name}
+                  data={processedDeviceData}
+                  device={device}
+                ></DataChart>
+                <div style={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    getRowId={handleRowId}
+                    rows={processedDeviceData}
+                    columns={getColumns()}
+                    pageSize={10}
+                    rowsPerPageOptions={[5]}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </>
         )}
       </Box>
     </>
