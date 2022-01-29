@@ -44,6 +44,7 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
           fetchByDeviceId(deviceId).then((device) => {
             setDevice(device);
             let _data = processData(data, device);
+            console.log("_data :: ", _data);
             setProcessedDeviceData(_data);
           });
       });

@@ -18,7 +18,7 @@ export const DataChart: FC<DataChartProps> = ({ title, data, device }) => {
   useEffect(() => {
     let _data = processChartDataByParam(data, device);
     setChartData(_data);
-  }, [data]);
+  }, [chartData]);
 
   const options = {
     chart: {
@@ -71,7 +71,7 @@ export const DataChart: FC<DataChartProps> = ({ title, data, device }) => {
         <HighchartsReact
           highcharts={Highcharts}
           options={options}
-          updateArgs={[true]}
+          oneToOne={true}
         />
       )}
     </>
