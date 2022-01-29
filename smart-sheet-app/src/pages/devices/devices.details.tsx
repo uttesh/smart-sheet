@@ -28,10 +28,27 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
   let { deviceId } = useParams();
   const [deviceData, setDeviceData] = useState<DeviceData[]>([]);
   const [device, setDevice] = useState<Device>(new Device());
+  const [refreshInterval, setRefreshInterval] = useState(30 * 1000);
   const [processedDeviceData, setProcessedDeviceData] =
     useState<Map<string, unknown>[]>();
 
   const columns: GridColDef[] = [];
+
+  const fetchMetrics = () => {
+    console.log("refreshed:::", new Date());
+    if (deviceId) {
+      fetchDeviceDataById(deviceId).then((data) => {
+        setDeviceData(data);
+
+        if (deviceId)
+          fetchByDeviceId(deviceId).then((device) => {
+            setDevice(device);
+            let _data = processData(data, device);
+            setProcessedDeviceData(_data);
+          });
+      });
+    }
+  };
 
   const handleRowId = (e: any) => {
     return e.id;
@@ -57,18 +74,14 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
   };
 
   useEffect(() => {
-    if (deviceId)
-      fetchDeviceDataById(deviceId).then((data) => {
-        setDeviceData(data);
-
-        if (deviceId)
-          fetchByDeviceId(deviceId).then((device) => {
-            setDevice(device);
-            let _data = processData(data, device);
-            setProcessedDeviceData(_data);
-          });
-      });
-  }, []);
+    fetchMetrics();
+    if (refreshInterval && refreshInterval > 0) {
+      const interval = setInterval(fetchMetrics, refreshInterval);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [refreshInterval]);
   return (
     <>
       <Box
@@ -83,7 +96,7 @@ export const DeviceDetail: FC<DeviceDetailProps> = () => {
         {processedDeviceData && processedDeviceData.length > 0 && (
           <>
             <Card>
-              <CardHeader title={device.name} subheader={device.params} />
+              <CardHeader title={`${device.name}`} subheader={device.params} />
               <CardContent>
                 <DataChart
                   title={device.name}

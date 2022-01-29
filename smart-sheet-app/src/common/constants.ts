@@ -28,3 +28,7 @@ export const ACTION = {
   EDIT: "edit",
   ADD: "add"
 };
+
+export const APP_CONFIG = {
+  REFRESH_INTERVAL: 30
+};

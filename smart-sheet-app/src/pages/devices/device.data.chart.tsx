@@ -18,14 +18,23 @@ export const DataChart: FC<DataChartProps> = ({ title, data, device }) => {
   useEffect(() => {
     let _data = processChartDataByParam(data, device);
     setChartData(_data);
-  }, []);
+  }, [data]);
 
   const options = {
+    chart: {
+      zoomType: "x"
+    },
     title: {
       text: title
     },
     credits: {
       enabled: false
+    },
+    subtitle: {
+      text:
+        document.ontouchstart === undefined
+          ? "Click and drag in the plot area to zoom in"
+          : "Pinch the chart to zoom in"
     },
     xAxis: {
       crosshair: {
