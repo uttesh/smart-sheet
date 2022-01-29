@@ -22,7 +22,8 @@ export const DataChart: FC<DataChartProps> = ({ title, data, device }) => {
 
   const options = {
     chart: {
-      zoomType: "x"
+      zoomType: "x",
+      type: "spline"
     },
     title: {
       text: title
@@ -67,7 +68,11 @@ export const DataChart: FC<DataChartProps> = ({ title, data, device }) => {
   return (
     <>
       {chartData && (
-        <HighchartsReact highcharts={Highcharts} options={options} />
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          updateArgs={[true]}
+        />
       )}
     </>
   );
