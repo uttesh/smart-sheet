@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  api:
+    depends_on:
+      - mongo
+    container_name: api
+    build: ./smart-sheet-service
+    command: yarn run start
+    ports:
+      - "3006:3006"
+    environment:
+      - DATABASE_URL=mongodb://mongo/smart-sheet
+      - PORT=3006
+  mongo:
+    container_name: db_code
+    image: mongo:bonic
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - 27018:27017
+  front:
+    depends_on:
+      - api
+    container_name: front
+    build: ./smart-sheet-app
+    command: yarn run start
+    ports:
+      - "3000:3000"
+
+  nginx:
+    depends_on:
+      - api
+      - front
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+
+volumes:
+  mongodata:
