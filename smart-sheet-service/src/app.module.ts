@@ -6,7 +6,7 @@ import { DeviceModule } from './device/device.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/smart-sheet'),
+    MongooseModule.forRoot('mongodb://mongo/smart-sheet'),
     DeviceModule,
   ],
   controllers: [AppController],

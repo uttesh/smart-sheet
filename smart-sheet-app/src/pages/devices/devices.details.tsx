@@ -21,6 +21,9 @@ import { Device } from "../../services/device.model";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { DataChart } from "./device.data.chart";
+import CircularStatic, {
+  CircularProgressWithLabel
+} from "../../components/timer.indicator";
 
 export interface DeviceDetailProps {}
 
