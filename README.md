@@ -5,6 +5,7 @@ Simple web solution to assist the testing of the IOT device development instead 
 It's very simple application where we will add the device and send the device data to the smart-sheet to maitain the data in database and provide API to access those data.
 
 # project structure
+
 ```
 │ docker-compose.yml
 │ README.md
@@ -35,6 +36,7 @@ It's very simple application where we will add the device and send the device da
 | ├───node_modules
 │ ├───src
 ```
+
 ## Docker-compose
 
 Using the docker compose to bring up the front ent and back end API server along with the MongoDB, Nginx server as well.
@@ -48,5 +50,5 @@ build and run
 use -d flag for run as background
 
 ```
-docker-compose -d up --build
+> ./run.sh
 ```
