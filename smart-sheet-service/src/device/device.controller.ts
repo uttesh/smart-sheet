@@ -103,4 +103,20 @@ export class DeviceController {
     await this.deviceService.deleteById(id);
     res.status(HttpStatus.OK).json({ status: 'Deleted Successfully' });
   }
+
+  @Post('/data')
+  async pubSubDeviceData(@Body() data: string, @Res() res: Response) {
+    // const device: Device = await this.deviceService.findByName(deviceName);
+    console.log('pubSubDeviceData payload :: ', data);
+    // if (device._id) {
+    //   const deviceData = {
+    //     deviceId: device._id,
+    //     data: JSON.stringify(data),
+    //     createdDate: new Date(),
+    //     updatedDate: new Date(),
+    //   } as DeviceData;
+    //   this.deviceService.saveDeviceData(deviceData);
+    // }
+    res.status(HttpStatus.CREATED).send();
+  }
 }
