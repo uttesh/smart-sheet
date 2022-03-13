@@ -1,5 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Paper } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -78,10 +79,16 @@ const App = () => {
             }}
           >
             <Toolbar />
-            <div
-              style={{ width: "100%", paddingLeft: "15px", paddingTop: "15px" }}
-            >
-              <AppRoutes></AppRoutes>
+              <div class="MuiCardHeader-action css-1bh09gn">
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    paddingLeft: "15px",
+                    paddingTop: "15px"
+                  }}
+                >
+                  <AppRoutes></AppRoutes>
             </div>
           </Box>
         </Box>

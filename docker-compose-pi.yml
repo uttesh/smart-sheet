@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
   api:
@@ -12,13 +12,17 @@ services:
     environment:
       - DATABASE_URL=mongodb://mongo/smart-sheet
       - PORT=3006
+    networks:
+      - smartsheet-network
   mongo:
     container_name: db_code
-    image: mongo:bonic
+    image: mongo:latest
     volumes:
       - mongodata:/data/db
     ports:
       - 27018:27017
+    networks:
+      - smartsheet-network
   front:
     depends_on:
       - api
@@ -27,7 +31,8 @@ services:
     command: yarn run start
     ports:
       - "3000:3000"
-
+    networks:
+      - smartsheet-network
   nginx:
     depends_on:
       - api
@@ -41,3 +46,6 @@ services:
 
 volumes:
   mongodata:
+networks:
+  smartsheet-network:
+    driver: bridge

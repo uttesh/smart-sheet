@@ -52,3 +52,29 @@ use -d flag for run as background
 ```
 > ./run.sh
 ```
+
+# eclipse-mosquitto configuration
+
+### Setup and configuration
+
+Follow the steps as per the docker hub document: https://hub.docker.com/_/eclipse-mosquitto
+
+1. Docker full image:
+
+```
+docker pull eclipse-mosquitto
+```
+
+2. Create volumes:
+
+```
+/mosquitto/config
+/mosquitto/data
+/mosquitto/log
+```
+
+3. run the docker
+
+```
+> docker run -it -p 1883:1883 -p 9001:9001 -v mosquitto.conf:/mosquitto/config/mosquitto.conf -v /mosquitto/data -v /mosquitto/log eclipse-mosquitto
+```
