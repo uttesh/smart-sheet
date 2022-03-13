@@ -1,4 +1,5 @@
-export const BASE_API_URL = "http://localhost/api";
+// export const BASE_API_URL = "http://localhost/api";
+export const BASE_API_URL = "http://localhost:3006";
 export const API = {
   DEVICE: {
     ADD: `${BASE_API_URL}/devices`,
