@@ -8,15 +8,22 @@ export class HttpClientService {
   constructor(private httpService: HttpService) {}
 
   sendDeviceDataToSmartSheet(payload: PayloadBean) {
-    console.log(
-      'HttpClientService::sendDeviceDataToSmartSheet:: payload :: ',
-      payload,
-    );
-    //localhost:3006/devices/data
-    this.httpService
-      .post('http://localhost:3006/devices/data', payload)
-      .subscribe((data) => {
-        console.log('received response :::');
-      });
+    try {
+      console.log(
+        'HttpClientService::sendDeviceDataToSmartSheet:: payload :: ',
+        payload,
+      );
+      //localhost:3006/devices/data
+      this.httpService
+        .post('http://localhost:3006/devices/data', payload)
+        .subscribe((data) => {
+          console.log('received response :::');
+        });
+    } catch (e) {
+      console.log(
+        'HttpClientService::sendDeviceDataToSmartSheet:: error :: ',
+        e,
+      );
+    }
   }
 }
