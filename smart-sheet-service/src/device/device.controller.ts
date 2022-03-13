@@ -105,18 +105,33 @@ export class DeviceController {
   }
 
   @Post('/data')
-  async pubSubDeviceData(@Body() data: string, @Res() res: Response) {
-    // const device: Device = await this.deviceService.findByName(deviceName);
-    console.log('pubSubDeviceData payload :: ', data);
-    // if (device._id) {
-    //   const deviceData = {
-    //     deviceId: device._id,
-    //     data: JSON.stringify(data),
-    //     createdDate: new Date(),
-    //     updatedDate: new Date(),
-    //   } as DeviceData;
-    //   this.deviceService.saveDeviceData(deviceData);
-    // }
+  async pubSubDeviceData(@Body() deviceData: DeviceData, @Res() res: Response) {
+    try {
+      if (deviceData && deviceData.deviceId) {
+        console.log(Object.keys(JSON.parse(deviceData.data)).join(','));
+        const device: Device = await this.deviceService.findByName(
+          deviceData.deviceId,
+        );
+        if (!device) {
+          let device: Device = {
+            name: deviceData.deviceId,
+            description: '',
+            params: Object.keys(JSON.parse(deviceData.data)).join(','),
+          } as Device;
+          device = await this.deviceService.save(device);
+        }
+        const _deviceData = {
+          deviceId: device._id,
+          data: JSON.stringify(deviceData.data),
+          createdDate: new Date(),
+          updatedDate: new Date(),
+        } as DeviceData;
+        this.deviceService.saveDeviceData(_deviceData);
+      }
+    } catch (error) {
+      console.log('error :: ', error);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+    }
     res.status(HttpStatus.CREATED).send();
   }
 }

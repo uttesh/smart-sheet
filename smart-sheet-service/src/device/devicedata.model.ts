@@ -10,6 +10,8 @@ export class DeviceData extends BaseModel {
   deviceId: string;
   @Prop()
   data: string;
+  @Prop()
+  cmd: string;
 }
 
 export const DeviceDataSchema = SchemaFactory.createForClass(DeviceData);
