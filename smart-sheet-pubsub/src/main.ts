@@ -8,7 +8,8 @@ async function bootstrap() {
     {
       transport: Transport.MQTT,
       options: {
-        url: 'mqtt://localhost:1883',
+        url: 'mqtt://broker:1883',
+        clientId: 'pubsub_client_id',
       },
     },
   );

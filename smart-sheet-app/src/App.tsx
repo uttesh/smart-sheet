@@ -79,16 +79,15 @@ const App = () => {
             }}
           >
             <Toolbar />
-              <div class="MuiCardHeader-action css-1bh09gn">
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    paddingLeft: "15px",
-                    paddingTop: "15px"
-                  }}
-                >
-                  <AppRoutes></AppRoutes>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                paddingLeft: "15px",
+                paddingTop: "15px"
+              }}
+            >
+              <AppRoutes></AppRoutes>
             </div>
           </Box>
         </Box>

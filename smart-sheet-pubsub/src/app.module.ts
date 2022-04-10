@@ -6,7 +6,7 @@ import { HttpModule } from '@nestjs/axios';
 import { PublisherService } from './publisher.service';
 import { HttpClientService } from './http.client';
 @Module({
-  imports: [MqttModule.forRoot({ host: 'localhost', port: 1883 }), HttpModule],
+  imports: [MqttModule.forRoot({ host: 'broker', port: 1883 }), HttpModule],
   controllers: [AppController],
   providers: [AppService, PublisherService, HttpClientService],
 })

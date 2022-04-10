@@ -5,12 +5,13 @@ import { ResponseHeaderInterceptor } from './base/web/AppHeaderInterceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.MQTT,
-    options: {
-      url: 'mqtt://localhost:1883',
-    },
-  });
+  // app.connectMicroservice<MicroserviceOptions>({
+  //   transport: Transport.MQTT,
+  //   options: {
+  //     url: 'mqtt://broker:1883',
+  //     clientId: 'ss_service_client_id',
+  //   },
+  // });
   // await app.startAllMicroservices();
   // app.setGlobalPrefix('api');
   app.enableCors();

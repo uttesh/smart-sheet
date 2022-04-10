@@ -4,6 +4,7 @@ services:
   api:
     depends_on:
       - mongo
+      - broker
     container_name: api
     build: ./smart-sheet-service
     command: yarn run start
@@ -12,6 +13,22 @@ services:
     environment:
       - DATABASE_URL=mongodb://mongo/smart-sheet
       - PORT=3006
+    networks:
+      - smartsheet-network
+  pubsub:
+    depends_on:
+      - broker
+      - api
+    container_name: pubsub
+    build: ./smart-sheet-pubsub
+    command: yarn run start
+    networks:
+      - smartsheet-network
+  broker:
+    image: eclipse-mosquitto:1.6.13
+    ports:
+      - 1883:1883
+      - 8883:8883
     networks:
       - smartsheet-network
   mongo:
@@ -48,7 +65,7 @@ services:
       - smartsheet-network
 
 volumes:
-  mongodata: null
+  mongodata:
 networks:
   smartsheet-network:
     driver: bridge

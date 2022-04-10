@@ -36,15 +36,9 @@ export class PubsubController {
   @Get('broadcast')
   async multicats(@Res() res: Response) {
     console.log('broadcast :::');
-    this.client
-      .send<number>({ cmd: 'broadcast' }, {})
-      .pipe(
-        scan((a, b) => a + b),
-        take(2),
-      )
-      .subscribe((data) => {
-        console.log('completed :: ', data);
-        res.status(HttpStatus.OK).json(data);
-      });
+    this.pubsubService.getCurrentTime().subscribe((data) => {
+      console.log('completed :: ', data);
+      res.status(HttpStatus.OK).json(data);
+    });
   }
 }

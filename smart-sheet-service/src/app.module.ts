@@ -9,17 +9,17 @@ import { PubsubService } from './service/pubsub/pubsub.service';
 import { PUBSUB, PUBSUB_SERVICE } from './constants';
 @Module({
   imports: [
-    // MongooseModule.forRoot('mongodb://mongo/smart-sheet'),
+    MongooseModule.forRoot('mongodb://mongo/smart-sheet'),
     ClientsModule.register([
       {
         name: PUBSUB_SERVICE,
         transport: Transport.MQTT,
         options: {
-          url: 'mqtt://localhost:1883',
+          url: 'mqtt://broker:1883',
         },
       },
     ]),
-    MongooseModule.forRoot('mongodb://localhost:27017/smart-sheet'),
+    // MongooseModule.forRoot('mongodb://localhost:27017/smart-sheet'),
     DeviceModule,
   ],
   controllers: [AppController, PubsubController],
